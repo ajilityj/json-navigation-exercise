@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const clickedElement = event.target;
         const currentElement = nav.getElementsByClassName('selected')[0];
+        const marker = document.querySelector('#js-marker');
+
+        const clickedElementDimensions = clickedElement.getBoundingClientRect();
+        const computedStyle = getComputedStyle(clickedElement);
 
         // remove 'selected' class from previous selection
         if (currentElement && currentElement !== clickedElement) {
@@ -41,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // add 'selected' class to clicked nav item
         clickedElement.setAttribute('class', 'selected');
+      
+        // animate nav item underline
+        marker.style.left = clickedElementDimensions.left + parseInt(computedStyle.paddingLeft, 10) + 'px';
+        marker.style.top = clickedElementDimensions.bottom + 'px';
+        marker.style.width = clickedElementDimensions.width - parseInt(computedStyle.paddingLeft) - parseInt(computedStyle.paddingRight) + 'px';
     }
 
 }, false);

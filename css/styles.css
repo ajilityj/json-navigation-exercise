@@ -37,9 +37,8 @@ nav a.selected {
     color: #000;
 }
 
-nav a.selected:after {
-    border-bottom: 1px solid #000;
-    content: '';
-    display: block;
-    margin-bottom: -1px; /* adjust for border width */
+#js-marker { 
+    position: fixed;
+    background-color:#000;
+    height: 1px;
 }
