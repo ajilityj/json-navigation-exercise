@@ -1,0 +1,45 @@
+* { /* reset */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 18px;
+}
+
+header {
+    margin: 12em 2.25em 5.5em;
+}
+
+nav {
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 4.5em;
+}
+
+nav a {
+    color: #ccc;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0 1.25em;
+    line-height: 2.5;
+}
+
+nav a:hover,
+nav a:focus {
+    color: #4479b0;
+    outline: none;
+}
+
+nav a.selected {
+    color: #000;
+}
+
+nav a.selected:after {
+    border-bottom: 1px solid #000;
+    content: '';
+    display: block;
+    margin-bottom: -1px; /* adjust for border width */
+}
