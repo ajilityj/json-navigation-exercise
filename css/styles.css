@@ -41,4 +41,5 @@ nav a.selected {
     position: fixed;
     background-color:#000;
     height: 1px;
+    transition: width 1s ease;
 }
