@@ -65,7 +65,11 @@ document.addEventListener("DOMContentLoaded", function() {
       clickedElement.setAttribute("class", "selected");
 
       // animate underline for selected nav item
-      // TO-DO: increase animation speed & smooth transition w/multi-fast-clicks
+      /* 
+         todo: increase animation speed, 
+               smooth transition w/multi-fast-clicks,
+               move marker on window resize
+      */
       const movingMarker = setInterval(animateMarker, 5);
 
       function animateMarker() {

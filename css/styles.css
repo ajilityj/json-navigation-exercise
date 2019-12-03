@@ -1,4 +1,4 @@
-* { /* reset */
+* { /* browser resets */
     margin: 0;
     padding: 0;
 }
@@ -13,18 +13,22 @@ header {
 }
 
 nav {
+    align-items: center;
     border-bottom: 1px solid #ccc;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     letter-spacing: .04em;
     padding: 0 4.5em;
+    min-width: 1080px; /* todo: make responsive */
 }
 
 nav a {
     color: #ccc;
+    flex: 1 0 auto;
     text-decoration: none;
-    padding: 0 1.25em;
-    line-height: 2.5;
+    padding: 1.25em;
+    text-align: center;
 }
 
 nav a:hover,
