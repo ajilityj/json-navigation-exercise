@@ -1,8 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
-
-    // find nav & marker elements
-    const nav = document.querySelector("nav");
-    const marker = document.querySelector("#js-marker");
+document.addEventListener(
+  'DOMContentLoaded',
+  function() {
+    // find nav
+    const nav = document.querySelector('nav');
 
     // fetch navigation items from json
     async function getNavItems() {
@@ -13,81 +13,63 @@ document.addEventListener("DOMContentLoaded", function() {
     getNavItems().then(data => showNavItems(data.cities));
 
     // create & show nav items
-    function showNavItems(items) {
-      // for each nav item...
-      items.forEach((item, index) => {
+    const showNavItems = items => {
+      // create list
+      const ul = document.createElement('ul');
+
+      // for each list item...
+      items.forEach(item => {
+        // create list item
+        const li = document.createElement('li');
+
         // create anchor element
-        const a = document.createElement("a");
+        const a = document.createElement('a');
 
-        // add nav content to anchor element
-        a.setAttribute("href", `#${item.section}`);
+        // add content to anchor element
+        a.setAttribute('href', `#${item.section}`);
         a.innerHTML = item.label;
+        a.onclick = activateNavItem;
 
-        // add anchor element to nav
-        nav.appendChild(a);
+        // add anchor element to list item
+        li.appendChild(a);
+
+        // add list item to list
+        ul.appendChild(li);
       });
-    }
 
-    // listen to click events on nav items
-    nav.onclick = event => {
-      // get current 'selected' element
-      const currentElement = nav.getElementsByClassName("selected")[0];
-      // get clicked element's attributes
-      const clickedElement = event.target;
-      const clickedElementDimensions = clickedElement.getBoundingClientRect();
-      const clickedComputedStyle = getComputedStyle(clickedElement);
-      // get marker attributes
-      const markerDimensions = marker.getBoundingClientRect();
+      const li = document.createElement('li');
+      li.setAttribute('id', 'nav-line');
+      ul.appendChild(li);
 
-      // calculate left position of marker
-      let currentMarkerLeftPosition = Math.round(markerDimensions.left) || 0;
+      // add list to nav
+      nav.appendChild(ul);
+    };
 
-      // calculate & set width and top position of marker
-      marker.style.top = clickedElementDimensions.bottom + "px";
-      marker.style.width =
-        clickedElementDimensions.width -
-        parseInt(clickedComputedStyle.paddingLeft) -
-        parseInt(clickedComputedStyle.paddingRight) +
-        "px";
+    const removeActiveClass = () => {
+      const activeElements = document.querySelectorAll('.active');
 
-      // calculate width & position of marker for clicked/selected item
-      const clickedElementLeftPosition = Math.round(
-        clickedElementDimensions.left +
-        parseInt(clickedComputedStyle.paddingLeft, 10)
-    );
-
-      // remove 'selected' class from previous selection
-      if (currentElement && currentElement !== clickedElement) {
-        currentElement.setAttribute("class", "");
+      for (let i = 0; i < activeElements.length; i++) {
+        activeElements[i].classList.remove('active');
       }
+    };
 
-      // add 'selected' class to clicked nav item
-      clickedElement.setAttribute("class", "selected");
+    const activateNavItem = e => {
+      // show line
+      const navLine = document.getElementById('nav-line');
+      navLine.style.display = 'inline-block';
 
-      // animate underline for selected nav item
-      /* 
-         todo: increase animation speed, 
-               smooth transition w/multi-fast-clicks,
-               move marker on window resize
-      */
-      const movingMarker = setInterval(animateMarker, 5);
+      // get clicked element
+      const navItem = e.target;
 
-      function animateMarker() {
-        // update marker position
-        if (currentMarkerLeftPosition > clickedElementLeftPosition) {
-          currentMarkerLeftPosition--;
-        } else {
-          currentMarkerLeftPosition++;
-        } 
+      // find & remove active class from all elements
+      removeActiveClass();
 
-        // if marker has reached new left position, stop animation
-        if (currentMarkerLeftPosition === clickedElementLeftPosition) {
-          clearInterval(movingMarker);
-        }
+      // add active class to clicked element
+      navItem.classList.add('active');
 
-        // set marker's new left position
-        marker.style.left = currentMarkerLeftPosition + "px";
-      }
+      // set width and position (accounting for 1em (18px) left/right padding)
+      navLine.style.width = navItem.offsetWidth - 36 + 'px';
+      navLine.style.left = navItem.offsetLeft + 18 + 'px';
     };
   },
   false

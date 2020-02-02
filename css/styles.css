@@ -1,49 +1,57 @@
-* { /* browser resets */
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 18px;
+  font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue',
+    'Helvetica', 'Arial', sans-serif;
+  font-size: 18px;
 }
 
 header {
-    margin: 12em 2.25em 5.5em;
+  margin: 2.25em;
 }
 
-nav {
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    letter-spacing: .04em;
-    padding: 0 4.5em;
-    min-width: 1080px; /* todo: make responsive */
+nav ul {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  letter-spacing: 0.04em;
+  list-style: none;
+  margin: 0 auto;
+  padding: 1em 3em;
+  position: relative;
 }
 
 nav a {
-    color: #ccc;
-    flex: 1 0 auto;
-    text-decoration: none;
-    padding: 1.25em;
-    text-align: center;
+  color: #ccc;
+  flex: 1 0 auto;
+  padding: 1em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 nav a:hover,
 nav a:focus {
-    color: #4479b0;
-    outline: none;
+  color: #4479b0;
+  outline: none;
 }
 
-nav a.selected {
-    color: #000;
+nav a.active {
+  color: #000;
 }
 
-#js-marker { 
-    position: fixed;
-    background-color:#000;
-    height: 1px;
-    transition: width 1s ease;
+#nav-line {
+  background: #000;
+  bottom: -1.5px;
+  display: none;
+  height: 2px;
+  left: 0;
+  padding: 0;
+  position: absolute;
+  transition: all 1s ease;
+  width: 0;
 }
