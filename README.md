@@ -11,3 +11,5 @@ Display the current time of the selected city. You have creative license on how 
 ## References
 https://css-tricks.com/examples/MagicLine/
 https://hashnode.com/post/how-to-get-the-local-time-of-a-particular-timezone-in-javascript-cj703pkwg01t9s5wt8zh37rwz
+https://www.paulirish.com/2009/random-hex-color-code-snippets/
+https://html-online.com/articles/blinking-text-css-animation/

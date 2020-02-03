@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded',
     const activateNavItem = e => {
       // show slider bar & 'current time' element
       navSliderBar.style.display = 'inline-block';
-      currentTimeElement.style.display = 'block';
+      currentTimeElement.style.display = 'inline-block';
 
       // get clicked element
       const navItem = e.target;
@@ -90,8 +90,9 @@ document.addEventListener('DOMContentLoaded',
       // save utc of clicked element
       currentUTC = navItem.dataset.utc;
 
-      // show current time of selected location
-      getCurrentTime();
+      // show current time of selected location, in a random color
+      currentTimeElement.style.color = randomColor();
+      showCurrentTime();
     };
 
     const getNavSliderBar = (width, leftPosition) => {
@@ -129,15 +130,19 @@ document.addEventListener('DOMContentLoaded',
       if (hours < 0) hours = 24 + hours;
       
       const timeOfDay = hours < 12 ? "AM" : "PM";
-      const hour = hours <= 12 ? (hours === 0 ? 12 : hours) : (hours - 12);
+      hours = hours <= 12 ? (hours === 0 ? 12 : hours) : (hours - 12);
 
-      return `${hour}:${minutes}:${seconds} ${timeOfDay}`;
+      return `${hours}<span class='blinking'>:</span>${minutes}<span class='blinking'>:</span>${seconds} ${timeOfDay}`;
     }
   
-    const getCurrentTime = () => {
+    const randomColor = () => {
+      return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    }
+
+    const showCurrentTime = () => {
       return currentTimeElement.innerHTML = getUTCTime(new Date(), parseInt(currentUTC));
     }
-    setInterval(getCurrentTime, 1000); // 1s
+    setInterval(showCurrentTime, 1000); // 1s
 
     // update position & size of navSliderBar on window resize
     window.addEventListener('resize', () => {

@@ -5,30 +5,32 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   font-family: 'SF Pro Text', 'Myriad Set Pro', 'SF Pro Icons', 'Helvetica Neue',
     'Helvetica', 'Arial', sans-serif;
   font-size: 18px;
 }
 
 @media screen and (min-width: 792px) {
-    body {
-        font-size: 12px;
-    }
+  body {
+    font-size: 12px;
+  }
 }
 @media screen and (min-width: 910px) {
-    body {
-        font-size: 14px;
-    }
+  body {
+    font-size: 14px;
+  }
 }
 @media screen and (min-width: 1032px) {
-    body {
-        font-size: 16px;
-    }
+  body {
+    font-size: 16px;
+  }
 }
 @media screen and (min-width: 1154px) {
-    body {
-        font-size: 18px;
-    }
+  body {
+    font-size: 18px;
+  }
 }
 
 header {
@@ -41,28 +43,28 @@ nav ul {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  letter-spacing: 0.04em;
+  letter-spacing: .04em;
   list-style: none;
   margin: 0 auto;
   padding: 0;
   position: relative;
 }
 @media screen and (min-width: 792px) {
-    nav ul {
-        flex-direction: row;
-        padding: 0 3em;
-    }
+  nav ul {
+    flex-direction: row;
+    padding: 0 3em;
+  }
 }
 
 nav ul li {
-    text-align: right;
-    width: 100%;
+  text-align: right;
+  width: 100%;
 }
 @media screen and (min-width: 792px) {
-    nav ul li {
-        text-align: center;
-        width: auto;
-    }
+  nav ul li {
+    text-align: center;
+    width: auto;
+  }
 }
 
 nav a {
@@ -103,6 +105,49 @@ nav a.active {
 }
 
 .current-time {
-    display: none;
-    text-align: center;
+  border: 4px solid;
+  border-radius: 4px;
+  color: transparent;
+  display: none;
+  font-size: 2.375em;
+  margin: .5em auto;
+  padding: .125em .25em;
+  text-align: center;
+  transition: color .5s ease;
+}
+
+@media screen and (min-width: 642px) {
+  .current-time {
+    border-width: 6px;
+    font-size: 5em;
+  }
+}
+
+@media screen and (min-width: 792px) {
+  .current-time {
+    border-width: 8px;
+    font-size: 8em;
+  }
+}
+
+.current-time .blinking {
+  animation: blinkingText 1.25s infinite;
+}
+
+@keyframes blinkingText {
+  0% {
+    color: inherit;
+  }
+  49% {
+    color: inherit;
+  }
+  60% {
+    color: transparent;
+  }
+  99% {
+    color: transparent;
+  }
+  100% {
+    color: inherit;
+  }
 }
