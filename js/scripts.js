@@ -1,11 +1,16 @@
-document.addEventListener(
-  'DOMContentLoaded',
-  function() {
+document.addEventListener('DOMContentLoaded', 
+  () => {
+
+    "use strict";
+    
     // find nav
     const nav = document.querySelector('nav');
 
+    // set slider bar
+    let navSliderBar = null;
+
     // fetch navigation items from json
-    async function getNavItems() {
+    const getNavItems = async () => {
       const response = await fetch('./provided-files/navigation.json');
       const data = await response.json();
       return data;
@@ -28,7 +33,7 @@ document.addEventListener(
         // add content to anchor element
         a.setAttribute('href', `#${item.section}`);
         a.innerHTML = item.label;
-        a.onclick = activateNavItem;
+        a.onclick = addActiveClass;
 
         // add anchor element to list item
         li.appendChild(a);
@@ -37,40 +42,77 @@ document.addEventListener(
         ul.appendChild(li);
       });
 
+      // create nav line element & append to nav list
       const li = document.createElement('li');
-      li.setAttribute('id', 'nav-line');
+      li.setAttribute('id', 'js-nav-slider-bar');
       ul.appendChild(li);
 
       // add list to nav
       nav.appendChild(ul);
+
+      // update reference to the slider bar
+      navSliderBar = document.getElementById('js-nav-slider-bar');
     };
 
     const removeActiveClass = () => {
-      const activeElements = document.querySelectorAll('.active');
+      // get active element
+      const activeElement = document.getElementsByClassName('active').length ? document.getElementsByClassName('active')[0] : null;
 
-      for (let i = 0; i < activeElements.length; i++) {
-        activeElements[i].classList.remove('active');
+      // remove 'active' class from currently active element, if it exists
+      if (activeElement) {
+        activeElement.classList.remove('active');
       }
     };
 
-    const activateNavItem = e => {
-      // show line
-      const navLine = document.getElementById('nav-line');
-      navLine.style.display = 'inline-block';
+    const addActiveClass = e => {
+      // show slider bar
+      navSliderBar.style.display = 'inline-block';
 
       // get clicked element
       const navItem = e.target;
 
-      // find & remove active class from all elements
+      // remove 'active' class from previously clicked element
       removeActiveClass();
 
       // add active class to clicked element
       navItem.classList.add('active');
 
-      // set width and position (accounting for 1em (18px) left/right padding)
-      navLine.style.width = navItem.offsetWidth - 36 + 'px';
-      navLine.style.left = navItem.offsetLeft + 18 + 'px';
+      // move slider bar to clicked element's width & left position
+      getNavSliderBar(navItem.offsetWidth, navItem.offsetLeft);
     };
-  },
+
+    const getNavSliderBar = (width, leftPosition) => {
+
+      // find window width
+      const windowWidth = document.body.clientWidth;
+      
+      // set emSize, based on window width
+      let emSize = 0;
+      if (windowWidth < 792) emSize = 18;
+      else if (windowWidth < 910) emSize = 12;
+      else if (windowWidth < 1032) emSize = 14;
+      else if (windowWidth < 1154) emSize = 16;
+      else emSize = 18;
+
+      // set width and position (accounting for 1em left/right padding)
+      navSliderBar.style.width = width - (emSize * 2) + 'px';
+      navSliderBar.style.left = leftPosition + (emSize) + 'px';
+    }
+
+    const findActiveElement = () => {
+      return document.getElementsByClassName('active').length ? document.getElementsByClassName('active')[0] : null;
+    }
+
+    // update position & size of navSliderBar on resize
+    window.addEventListener('resize', () => {
+        // find element w/active class
+        const activeElement = findActiveElement();
+
+        // move slider bar to active element's width & left position
+        if (activeElement) {
+          getNavSliderBar(activeElement.offsetWidth, activeElement.offsetLeft);
+        }
+    })
+  }, 
   false
 );

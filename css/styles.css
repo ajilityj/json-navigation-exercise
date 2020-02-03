@@ -1,4 +1,5 @@
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -9,26 +10,65 @@ body {
   font-size: 18px;
 }
 
+@media screen and (min-width: 792px) {
+    body {
+        font-size: 12px;
+    }
+}
+@media screen and (min-width: 910px) {
+    body {
+        font-size: 14px;
+    }
+}
+@media screen and (min-width: 1032px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media screen and (min-width: 1154px) {
+    body {
+        font-size: 18px;
+    }
+}
+
 header {
   margin: 2.25em;
 }
 
 nav ul {
+  align-items: end;
   border-bottom: 1px solid #ccc;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-evenly;
   letter-spacing: 0.04em;
   list-style: none;
   margin: 0 auto;
-  padding: 1em 3em;
+  padding: 0;
   position: relative;
+}
+@media screen and (min-width: 792px) {
+    nav ul {
+        flex-direction: row;
+        padding: 0 3em;
+    }
+}
+
+nav ul li {
+    text-align: right;
+    width: 100%;
+}
+@media screen and (min-width: 792px) {
+    nav ul li {
+        text-align: center;
+        width: auto;
+    }
 }
 
 nav a {
   color: #ccc;
-  flex: 1 0 auto;
-  padding: 1em;
-  text-align: center;
+  display: block;
+  padding: .75em 1em;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
@@ -44,14 +84,20 @@ nav a.active {
   color: #000;
 }
 
-#nav-line {
+#js-nav-slider-bar {
   background: #000;
   bottom: -1.5px;
   display: none;
-  height: 2px;
+  height: 0;
   left: 0;
   padding: 0;
   position: absolute;
   transition: all 1s ease;
   width: 0;
+}
+
+@media screen and (min-width: 792px) {
+  #js-nav-slider-bar {
+    height: 2px;
+  }
 }
