@@ -84,7 +84,7 @@ nav a.active {
   color: #000;
 }
 
-#js-nav-slider-bar {
+.nav-slider-bar {
   background: #000;
   bottom: -1.5px;
   display: none;
@@ -97,7 +97,12 @@ nav a.active {
 }
 
 @media screen and (min-width: 792px) {
-  #js-nav-slider-bar {
+  .nav-slider-bar {
     height: 2px;
   }
+}
+
+.current-time {
+    display: none;
+    text-align: center;
 }

@@ -10,6 +10,4 @@ Display the current time of the selected city. You have creative license on how 
 
 ## References
 https://css-tricks.com/examples/MagicLine/
-
-## To Do
-* display current time of selected city
+https://hashnode.com/post/how-to-get-the-local-time-of-a-particular-timezone-in-javascript-cj703pkwg01t9s5wt8zh37rwz

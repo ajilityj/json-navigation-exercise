@@ -3,11 +3,7 @@ document.addEventListener('DOMContentLoaded',
 
     "use strict";
     
-    // find nav
-    const nav = document.querySelector('nav');
-
-    // set slider bar
-    let navSliderBar = null;
+    let currentUTC = 0;
 
     // fetch navigation items from json
     const getNavItems = async () => {
@@ -15,15 +11,23 @@ document.addEventListener('DOMContentLoaded',
       const data = await response.json();
       return data;
     }
-    getNavItems().then(data => showNavItems(data.cities));
+    getNavItems().then(data => {
+      showNavItems(data.cities);
+    });
 
-    // create & show nav items
-    const showNavItems = items => {
+    // find nav & 'current time' element
+    const nav = document.querySelector('nav');
+    const currentTimeElement = document.getElementById('js-current-time');
+
+    // set slider bar
+    let navSliderBar = null;
+
+    const showNavItems = cities => {
       // create list
       const ul = document.createElement('ul');
 
       // for each list item...
-      items.forEach(item => {
+      cities.forEach(city => {
         // create list item
         const li = document.createElement('li');
 
@@ -31,9 +35,10 @@ document.addEventListener('DOMContentLoaded',
         const a = document.createElement('a');
 
         // add content to anchor element
-        a.setAttribute('href', `#${item.section}`);
-        a.innerHTML = item.label;
-        a.onclick = addActiveClass;
+        a.setAttribute('href', `#${city.section}`);
+        a.setAttribute('data-utc', `${city["utc-offset"]}`);
+        a.innerHTML = city.label;
+        a.onclick = activateNavItem;
 
         // add anchor element to list item
         li.appendChild(a);
@@ -45,6 +50,7 @@ document.addEventListener('DOMContentLoaded',
       // create nav line element & append to nav list
       const li = document.createElement('li');
       li.setAttribute('id', 'js-nav-slider-bar');
+      li.setAttribute('class', 'nav-slider-bar');
       ul.appendChild(li);
 
       // add list to nav
@@ -64,9 +70,10 @@ document.addEventListener('DOMContentLoaded',
       }
     };
 
-    const addActiveClass = e => {
-      // show slider bar
+    const activateNavItem = e => {
+      // show slider bar & 'current time' element
       navSliderBar.style.display = 'inline-block';
+      currentTimeElement.style.display = 'block';
 
       // get clicked element
       const navItem = e.target;
@@ -79,6 +86,12 @@ document.addEventListener('DOMContentLoaded',
 
       // move slider bar to clicked element's width & left position
       getNavSliderBar(navItem.offsetWidth, navItem.offsetLeft);
+
+      // save utc of clicked element
+      currentUTC = navItem.dataset.utc;
+
+      // show current time of selected location
+      getCurrentTime();
     };
 
     const getNavSliderBar = (width, leftPosition) => {
@@ -103,16 +116,39 @@ document.addEventListener('DOMContentLoaded',
       return document.getElementsByClassName('active').length ? document.getElementsByClassName('active')[0] : null;
     }
 
-    // update position & size of navSliderBar on resize
-    window.addEventListener('resize', () => {
-        // find element w/active class
-        const activeElement = findActiveElement();
+    const getUTCTime = (date, offset) => {
 
-        // move slider bar to active element's width & left position
-        if (activeElement) {
-          getNavSliderBar(activeElement.offsetWidth, activeElement.offsetLeft);
-        }
-    })
+      let seconds = date.getUTCSeconds();
+      if (seconds < 10) seconds = `0${seconds}`;
+
+      let minutes = date.getUTCMinutes();
+      if (minutes < 10) minutes = `0${minutes}`;
+
+      let hours = date.getUTCHours() + offset;
+      if (hours > 23) hours = 24 - hours;
+      if (hours < 0) hours = 24 + hours;
+      
+      const timeOfDay = hours < 12 ? "AM" : "PM";
+      const hour = hours <= 12 ? (hours === 0 ? 12 : hours) : (hours - 12);
+
+      return `${hour}:${minutes}:${seconds} ${timeOfDay}`;
+    }
+  
+    const getCurrentTime = () => {
+      return currentTimeElement.innerHTML = getUTCTime(new Date(), parseInt(currentUTC));
+    }
+    setInterval(getCurrentTime, 1000); // 1s
+
+    // update position & size of navSliderBar on window resize
+    window.addEventListener('resize', () => {
+      // find element w/active class
+      const activeElement = findActiveElement();
+
+      // move slider bar to active element's width & left position
+      if (activeElement) {
+        getNavSliderBar(activeElement.offsetWidth, activeElement.offsetLeft);
+      }
+  });
   }, 
   false
 );
